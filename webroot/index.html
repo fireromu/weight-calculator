@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+    <link rel="manifest" href="icons/site.webmanifest">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="lib/bootstrap-4.4.1-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    
+    <title>Gewichtsrechner</title>
+  </head>
+  <body>
+    <main role="main" class="container">
+      <h1>Gewichtsrechner</h1>
+      <form>
+      <div class="form-group">
+        <label for="w1">Altes Gewicht [kg]</label>
+        <input type="text" class="form-control" id="w1" placeholder="Altes Gewicht in kg">
+      </div>
+      <div class="form-group">
+        <label for="w2">Neues Gewicht [kg]</label>
+        <input type="text" class="form-control" id="w2" placeholder="Neues Gewicht in kg">
+      </div>
+      <div class="form-group">
+        <button id="b1" type="button" class="btn btn-primary">Gewicht berechnen</button>
+      </div>
+      <div id="errorAlert" class="alert alert-danger" role="alert" style="display: none;">
+        Bitte gültige Werte eingeben
+      </div>
+
+      <div class="form-group">
+        <label>Gewichtsänderung</label>
+        <div class="form-row">
+        <div class="col">
+          <input id="dw1" type="text" class="form-control" readonly>
+        </div>
+        <div class="col">
+          <input id="dw2" type="text" class="form-control" readonly>
+        </div>
+      </div>
+    </div>
+  </form>
+  </main>
+    <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+  <script src="lib/bootstrap-4.4.1-dist/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript">
+   $(document).ready(function(){
+      $("#b1").click(function(){
+        var w1 = $("#w1").val();
+        var w2 = $("#w2").val();
+        if (checkValue(w1) && checkValue(w2)) {
+          var dw1 = w2 - w1;
+          var dw2 = ((100*w2)/w1)-100;
+          $("#dw1").val((dw1 > 0?"+":"")+round(dw1,2)+" kg");
+          $("#dw2").val((dw2 > 0?"+":"")+round(dw2,2)+" %");
+          $("#errorAlert").hide();
+        } else{
+          $("#errorAlert").show();
+        }
+      });
+  	});
+    function checkValue(value){
+      var regex = RegExp('[1-9]+[0-9]*([.][0-9]+)?','g');
+      return regex.test(value+"") && value.length == regex.lastIndex
+    }
+    function round(value, precision) {
+      var multiplier = Math.pow(10, precision || 0);
+      return Math.round(value * multiplier) / multiplier;
+    }
+  </script>
+  </body>
+</html>
